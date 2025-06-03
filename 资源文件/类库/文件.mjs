@@ -24,12 +24,12 @@ export default class 文件 {
     }
 
     async 追加(内容) {
-        var 新内容 = 接口.读取内容(this.路径) + 内容;
+        var 新内容 = await 接口.读取文件(this.路径) + 内容;
         await 接口.写入文件(this.路径, 新内容);
     }
 
     async 读取内容() {
-        return 接口.读取内容(this.路径);
+        return 接口.读取文件(this.路径);
     }
 
     async 使用国标编码读取内容() {
@@ -37,7 +37,7 @@ export default class 文件 {
     }
 
     async 使用国标编码写入内容(内容) {
-        return 接口.写入国标文件(this.路径, 内容);
+        return 接口.写入文件(this.路径, 转国标(内容));
     }
 
     async 删除() {

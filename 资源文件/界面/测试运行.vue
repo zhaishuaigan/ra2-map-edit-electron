@@ -66,16 +66,6 @@ export default {
         async 显示测试运行对话框() {
             await this.读取配置();
             this.显示弹窗 = true;
-
-            // ElementPlus.ElMessageBox.alert('检测到你还没有选择游戏目录, 选择游戏目录后才能使用测试运行功能', '提示', {
-            //     confirmButtonText: '选择游戏目录',
-            //     callback: async () => {
-            //         游戏目录 = await 目录.打开目录('game');
-            //         this.显示弹窗 = true;
-            //     },
-            // })
-
-
         },
         添加电脑() {
             this.电脑.push({
@@ -90,25 +80,19 @@ export default {
             this.电脑.splice(编号 - 1, 1);
         },
         async 保存配置() {
-            if (!window.项目) {
-                return;
-            }
+            var 配置文件名 = window.选择的地图.地图文件.路径 + '.run.json';
             var 配置 = {
                 玩家: this.玩家,
                 电脑: this.电脑,
                 设置: this.设置,
                 选项配置: this.选项配置,
             };
-            window.项目.项目目录.创建子文件('测试运行配置.json', JSON.stringify(配置));
+            await 接口.写入文件(配置文件名, JSON.stringify(配置));
         },
         async 读取配置() {
-            if (!window.项目) {
-                return;
-            }
-            var 包含配置文件 = await window.项目.项目目录.文件是否存在(this.配置文件名);
-            if (包含配置文件) {
-                var 配置文件 = await window.项目.项目目录.获取子文件(this.配置文件名);
-                var 配置内容 = await 配置文件.读取内容();
+            var 配置文件名 = window.选择的地图.地图文件.路径 + '.run.json';
+            if (await 接口.文件存在(配置文件名)) {
+                var 配置内容 = await 接口.读取文件(配置文件名);
                 var 配置 = JSON.parse(配置内容);
                 for (var 键 in 配置) {
                     this[键] = 配置[键];
@@ -119,6 +103,7 @@ export default {
             await this.保存配置();
             await this.生成游戏配置();
             await this.写入地图数据();
+            await 接口.启动游戏();
 
             const 加载中 = ElementPlus.ElLoading.service({
                 lock: true,
@@ -213,32 +198,15 @@ export default {
                 }
             }
 
-            接口.写入启动配置(游戏配置.生成配置文件());
-
-            // if (!玩家配置文件) {
-            //     玩家配置文件 = await 文件.保存一个文件('spawn.ini', 游戏配置.生成配置文件(), 'game');
-            //     this.玩家配置文件 = true;
-            // } else {
-            //     玩家配置文件.写入(游戏配置.生成配置文件());
-            // }
-
-
-            // var 游戏配置文件 = await 游戏目录.获取子文件('spawn.ini');
-            // if (游戏配置文件) {
-            //     await 游戏配置文件.写入(游戏配置.生成配置文件());
-            // } else {
-            //     await 游戏目录.创建子文件('spawn.ini', 游戏配置.生成配置文件());
-            // }
-
-
+            await 接口.写入启动配置(游戏配置.生成配置文件());
         },
         async 写入地图数据() {
-            var 地图数据 = await window.选择的地图.地图文件.读取内容();
+            var 地图数据 = await 接口.读取国标文件(window.选择的地图.地图文件.路径);
             if (this.设置.加速建造) {
                 if (地图数据.includes("BuildSpeed")) {
                     地图数据 = 地图数据.replace("BuildSpeed=", "BuildSpeed=.001;");
                 }
-                else if (地图数据.IndexOf("[General]") >= 0) {
+                else if (地图数据.includes("[General]")) {
                     地图数据 = 地图数据.replace("[General]", "[General]\nBuildSpeed=.001");
                 }
                 else {
@@ -246,23 +214,7 @@ export default {
                 }
             }
 
-            接口.写入地图(地图数据);
-
-            // await 游戏目录.创建子文件('mp.dat', 地图数据);
-        },
-        下载游戏() {
-
-        },
-        帮助() {
-            ElementPlus.ElMessageBox.alert('运行测试需要配合本地测试程序和游戏文件才能工作, 保存按钮会生成一个spawn.ini文件, 请将spawn.ini文件放在游戏目录下, 然后运行按钮才能启动游戏, 因为系统认为.ini是配置文件, 不允许随便修改, 所以需要手动下载到游戏目录下.', {
-                confirmButtonText: '确定',
-                callback: () => {
-                    ElMessage({
-                        type: 'info',
-                        message: `action: ${action}`,
-                    })
-                },
-            })
+            await 接口.写入地图(地图数据);
         },
     }
 }
@@ -401,11 +353,7 @@ export default {
             </el-button>
         </div>
         <div class="按钮组">
-            <el-button type="text" @click="帮助" style=" margin-right: 10px;">帮助</el-button>
-            <el-button type="primary" @click="保存配置" v-if="!玩家配置文件">保存配置</el-button>
-            <a :href="启动链接" v-if="玩家配置文件">
-                <el-button type="primary" @click="运行测试">运行</el-button>
-            </a>
+            <el-button type="primary" @click="运行测试">运行</el-button>
         </div>
     </el-dialog>
 </template>
