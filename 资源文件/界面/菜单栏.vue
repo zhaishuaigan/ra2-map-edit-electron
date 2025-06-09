@@ -1,6 +1,6 @@
 <script>
 export default {
-    components: 视图.加载组件(['触发编辑']),
+    components: 视图.加载组件(['触发器', '特遣部队']),
     data() {
         return {};
     },
@@ -14,7 +14,8 @@ export default {
         <span href="javascript:void(0);" class="图标 设置按钮" title="地图设置"></span>
         <span href="javascript:void(0);" class="图标 图层按钮" title="显示图层"></span>
         <span href="javascript:void(0);" class="图标 路径点按钮" title="显示路径点"></span>
-        <触发编辑 />
+        <触发器 />
+        <特遣部队 />
     </footer>
 </template>
 

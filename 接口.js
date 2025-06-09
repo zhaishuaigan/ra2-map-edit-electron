@@ -20,8 +20,11 @@ const 接口 = {
         fs.renameSync(旧文件名, 新文件名);
         return true;
     },
+    获取文件信息: (文件名) => {
+        const fs = require('fs');
+        return fs.statSync(文件名);
+    },
     打开目录: async () => {
-        console.log('打开目录');
         const { dialog } = require('electron');
         console.log('dialog', dialog);
         const { canceled, filePaths } = await dialog.showOpenDialog({
@@ -38,7 +41,7 @@ const 接口 = {
         if (接口.目录存在(目录名)) {
             return true;
         }
-        fs.mkdirSync(目录名);
+        fs.mkdirSync(目录名, { recursive: true });
         return true;
     },
     删除目录: (目录名) => {

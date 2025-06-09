@@ -3,7 +3,7 @@ export default {
     props: [],
     data() {
         return {
-            显示触发列表: false,
+            显示列表: false,
             显示弹窗: false,
             触发列表: [
                 {
@@ -30,8 +30,8 @@ export default {
 </script>
 
 <template>
-    <span href="javascript:void(0);" class="btn-text" @click="显示触发列表 = true">触发编辑</span>
-    <el-dialog v-model="显示触发列表" title="触发编辑" width="800" height="500" stripe draggable>
+    <span href="javascript:void(0);" class="btn-text" @click="显示列表 = true">触发编辑</span>
+    <el-dialog v-model="显示列表" title="触发列表" width="800" height="500" stripe draggable>
         <el-table :data="触发列表">
             <el-table-column property="触发名称" label="触发名称" width="150" />
             <el-table-column property="所属方" label="所属方" width="200" />

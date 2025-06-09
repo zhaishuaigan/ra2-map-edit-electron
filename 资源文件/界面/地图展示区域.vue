@@ -29,6 +29,18 @@ export default {
                 text: '正在绘制地图, 请稍后...',
                 background: 'rgba(0, 0, 0, 0.7)',
             });
+
+
+            if (await 接口.文件存在(截图文件名)) {
+                var 地图文件信息 = await window.选择的地图.地图文件.获取信息();
+                var 截图文件信息 = await 接口.获取文件信息(截图文件名);
+                if (截图文件信息.mtimeMs >= 地图文件信息.mtimeMs) {
+                    this.预览图地址 = 截图文件名;
+                    this.触发事件('大地图显示完成');
+                    加载中.close();
+                    return;
+                }
+            }
             await 接口.生成截图(window.选择的地图.地图文件.路径)
                 .catch((错误信息) => {
                     ElementPlus.ElMessageBox.alert(错误信息, '绘制地图失败', {

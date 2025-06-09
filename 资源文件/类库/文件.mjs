@@ -61,6 +61,10 @@ export default class 文件 {
         return await 接口.复制文件(this.路径, 新文件.路径);
     }
 
+    async 获取信息() {
+        return await 接口.获取文件信息(this.路径);
+    }
+
     监控文件(回调函数) {
         this.文件监听器 = new FileSystemObserver((records, observer) => {
             for (const record of records) {

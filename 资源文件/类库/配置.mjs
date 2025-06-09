@@ -63,7 +63,10 @@ export default class 配置 {
         if (!this.配置项[配置项] || !this.配置项[配置项][属性名]) {
             return false;
         }
-        delete this.配置项[配置项][属性名]
+        delete this.配置项[配置项][属性名];
+        if (Object.keys(this.配置项[配置项]).length == 0) {
+            delete this.配置项[配置项];
+        }
         this.编辑过的配置项.add(配置项);
         return true;
     }

@@ -20,7 +20,7 @@ export default {
         this.事件服务(this);
     },
     methods: {
-        关闭编辑单位属性对话框() {
+        属性被修改() {
             this.刷新();
         },
         已选择地图() {

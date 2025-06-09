@@ -3,9 +3,10 @@ import 动作 from "./动作.mjs"
 import 标签 from "./标签.mjs"
 
 export default class 触发器 {
+    编号 = "";
     名称 = "";
     所属方 = "";
-    禁用 = "0";
+    禁用触发 = "0";
     简单 = "0";
     中等 = "0";
     困难 = "0";
@@ -15,16 +16,17 @@ export default class 触发器 {
     事件列表 = [];
     动作列表 = [];
 
-    constructor(触发配置 = '', 事件配置 = '', 动作配置 = '') {
-        if (触发配置 != '') {
-            this.设置触发配置(触发配置);
-        }
-        if (事件配置 != '') {
-            this.设置事件配置(事件配置);
-        }
-        if (动作配置 != '') {
-            this.设置动作配置(动作配置);
-        }
+    constructor(编号, 配置 = "", 事件配置 = "", 动作配置 = "") {
+        this.编号 = 编号;
+        var 配置列表 = 配置.split(',');
+        this.所属方 = 配置列表.shift();
+        this.关联触发 = 配置列表.shift();
+        this.名称 = 配置列表.shift();
+        this.禁用触发 = 配置列表.shift();
+        this.简单 = 配置列表.shift();
+        this.中等 = 配置列表.shift();
+        this.困难 = 配置列表.shift();
+
     }
 
     设置触发配置(触发配置) {
@@ -48,6 +50,20 @@ export default class 触发器 {
     }
     添加标签(标签) {
         this.标签 = 标签;
+    }
+
+    static 解析触发器(触发器配置) {
+        var 配置列表 = 触发器配置.split(',');
+        if (配置列表.length == 0) {
+            return [];
+        }
+        var 总数 = 配置列表.shift();
+        var 触发器列表 = [];
+        for (var i = 0; i < 总数; i++) {
+            var 触发器参数 = [];
+            for (var j = 0; j < 9; j++) {
+            }
+        }
     }
 
 }

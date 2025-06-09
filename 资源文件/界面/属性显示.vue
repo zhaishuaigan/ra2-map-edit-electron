@@ -8,19 +8,31 @@ export default {
         };
     },
     mounted() {
-        var 单位 = window.选择的地图.获取单位(this.注册名);
-        if (!单位 && 单位.注册名 == '未注册') {
-            return;
-        }
-        this.属性列表 = 单位.获取属性列表();
         this.事件服务(this);
+        this.刷新数据();
     },
     methods: {
+
+        刷新数据: function () {
+            this.属性列表 = [];
+            setTimeout(() => {
+                var 单位 = window.选择的地图.获取单位(this.注册名);
+                if (!单位 && 单位.注册名 == '未注册') {
+                    return;
+                }
+                this.属性列表 = 单位.获取属性列表();
+            }, 0);
+
+        },
+
+        属性被修改: function (注册名, 属性名, 属性值) {
+            this.刷新数据();
+        },
         更新属性(注册名, 属性名, 属性值) {
             if (注册名 != this.注册名) {
                 return;
             }
-            this.$forceUpdate();
+            this.刷新数据();
         }
     }
 };
