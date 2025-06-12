@@ -138,9 +138,8 @@ export default {
         <div class="设置">
             <div class="金钱">10000</div>
             <div class="联盟与设置">
-                <div class="按钮 联盟按钮" @click="触发事件('显示选择地图目录对话框')"></div>
+                <div class="按钮 联盟按钮" @click="触发事件('显示选择地图对话框')"></div>
                 <div class="按钮 设置按钮" @click="触发事件('显示测试运行对话框')"></div>
-                <测试运行 />
             </div>
             <div class="小地图区域">
                 <小地图 />
@@ -208,6 +207,7 @@ export default {
         </div>
     </section>
     <编辑单位对话框 />
+    <测试运行 />
 </template>
 
 <style scoped>

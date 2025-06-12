@@ -3,6 +3,20 @@ import 模块 from "./模块.js";
 import 消息服务 from '../../插件/消息服务.mjs';
 class 视图 {
 
+    static 启动() {
+        var 应用程序 = Vue.createApp({
+            components: { h: 模块.异步加载('主界面') },
+            template: '<h></h>',
+        })
+        应用程序.use(ElementPlus);
+        应用程序.use(消息服务);
+        for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+            应用程序.component(key, component)
+        }
+        应用程序.mount(document.body);
+        return 应用程序;
+    }
+
     static 创建(界面) {
         var 应用程序 = Vue.createApp(模块.异步加载(界面))
         应用程序.use(ElementPlus);

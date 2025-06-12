@@ -19,7 +19,7 @@ export default {
         },
         async 大地图显示完成() {
             this.小地图图片 = '';
-            var 截图文件名 = window.选择的地图.地图文件.路径 + ".png";
+            var 截图文件名 = window.选择的地图.地图文件.路径.replace(/\..*$/, '') + ".png";
             if (await 接口.文件存在(截图文件名)) {
                 this.小地图图片 = 截图文件名;
             }

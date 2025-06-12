@@ -23,7 +23,7 @@ export default {
         },
         async 获取预览图() {
             this.预览图地址 = '';
-            var 截图文件名 = window.选择的地图.地图文件.路径 + ".png";
+            var 截图文件名 = window.选择的地图.地图文件.路径.replace(/\..*$/, '') + ".png";
             var 加载中 = ElementPlus.ElLoading.service({
                 lock: true,
                 text: '正在绘制地图, 请稍后...',

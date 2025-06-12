@@ -158,9 +158,11 @@ const 接口 = {
         var 截图生成器 = path.join(截图生成器目录, 'CNCMaps.Renderer.exe');
         var 参数 = [
             '-i', '"' + 地图文件名 + '"',
-            '-p', '-o', '"' + 地图文件信息.base + '"',
+            '-p', '-o', '"' + 地图文件信息.name + '"',
             '-m', '"' + 游戏目录 + '"',
-            '-Y', '-F', '-z', '+(800,0)', '--thumb-png', '--bkp'
+            '-Y', '-F',
+            '--mark-start-pos', '-s', '4',
+            '-z', '+(800,0)', '--thumb-png', '--bkp'
         ];
 
         const { exec } = require('child_process');
@@ -185,6 +187,24 @@ const 接口 = {
             });
         });
 
+    },
+    获取内置地图: async () => {
+        var path = require('path');
+        var 内置地图目录 = path.join(process.cwd(), '../map');
+        var 内置地图 = [];
+        var fs = require('fs');
+        var 文件列表 = fs.readdirSync(内置地图目录);
+        for (var i = 0; i < 文件列表.length; i++) {
+            var 文件名 = 文件列表[i];
+            if (文件名.endsWith('.map')) {
+                内置地图.push({
+                    文件名: 内置地图目录 + '/' + 文件名,
+                    缩略图: 内置地图目录 + '/' + 'thumb_' + 文件名.replace('.map', '.png'),
+                    名字: 文件名.replace('.map', '')
+                });
+            }
+        }
+        return 内置地图;
     }
 }
 
