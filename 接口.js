@@ -60,7 +60,7 @@ const 接口 = {
     },
     获取游戏目录: () => {
         const path = require('path');
-        var 游戏目录 = path.join(process.cwd(), '../game/');
+        var 游戏目录 = path.join(process.cwd(), 'game/');
         return 游戏目录;
     },
     写入文件: (文件名, 文件内容) => {
@@ -153,8 +153,8 @@ const 接口 = {
     生成截图: async (地图文件名) => {
         var path = require('path');
         var 地图文件信息 = path.parse(地图文件名);
-        var 游戏目录 = path.join(process.cwd(), '../game');
-        var 截图生成器目录 = path.join(process.cwd(), '../CNCMaps/');
+        var 游戏目录 = path.join(process.cwd(), 'game');
+        var 截图生成器目录 = path.join(process.cwd(), 'CNCMaps/');
         var 截图生成器 = path.join(截图生成器目录, 'CNCMaps.Renderer.exe');
         var 参数 = [
             '-i', '"' + 地图文件名 + '"',
@@ -162,7 +162,7 @@ const 接口 = {
             '-m', '"' + 游戏目录 + '"',
             '-Y', '-F',
             '--mark-start-pos', '-s', '4',
-            '-z', '+(800,0)', '--thumb-png', '--bkp'
+            '-z', '+(400,0)', '--thumb-png', '--bkp'
         ];
 
         const { exec } = require('child_process');
@@ -190,7 +190,7 @@ const 接口 = {
     },
     获取内置地图: async () => {
         var path = require('path');
-        var 内置地图目录 = path.join(process.cwd(), '../map');
+        var 内置地图目录 = path.join(process.cwd(), 'map');
         var 内置地图 = [];
         var fs = require('fs');
         var 文件列表 = fs.readdirSync(内置地图目录);
